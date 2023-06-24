@@ -11,10 +11,18 @@ provider:
 
 functions:
   hello-world:
-    handler: dist/template/lambdas/hello-world/main.handler
+    handler: dist/template/handler.helloWorld
     # handler: dist/main.handler
     events:
       - http:
           path: test
           method: get
           cors: true
+  bye-world:
+    handler: dist/template/handler.byeWorld
+    events:
+      - http:
+          path: test2
+          method: get
+          cors: true
+
