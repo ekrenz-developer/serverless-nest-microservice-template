@@ -1,13 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { HttpStatus, Type } from '@nestjs/common';
-import {
-  Callback,
-  Context,
-  Handler,
-  APIGatewayEvent,
-  APIGatewayProxyResult,
-} from 'aws-lambda';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
+import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 import { TemplateService } from '@src/template/services/template.service';
 
