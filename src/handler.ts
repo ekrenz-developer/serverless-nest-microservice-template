@@ -1,5 +1,5 @@
-import main from './main';
+// import main from './main';
 
-Object.entries(main).forEach(([handlerName, handler]) => {
-  exports[handlerName] = handler;
-});
+// Object.entries(main).forEach(([handlerName, handler]) => {
+//   exports[handlerName] = handler;
+// });

@@ -1,47 +1,93 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+// /* eslint-disable @typescript-eslint/no-var-requires */
+// const path = require("path");
+// const slsw = require("serverless-webpack");
+// const nodeExternals = require("webpack-node-externals");
+
+// module.exports = {
+//   context: __dirname,
+//   mode: slsw.lib.webpack.isLocal ? "development" : "production",
+//   entry: ["./src/main.ts"],
+//   devtool: slsw.lib.webpack.isLocal
+//     ? "eval-cheap-module-source-map"
+//     : "source-map",
+//   resolve: {
+//     extensions: [".mjs", ".json", ".ts"],
+//     symlinks: false,
+//     cacheWithContext: false,
+//     alias: {
+//       "@src": path.resolve(__dirname, "src"),
+//     },
+//   },
+//   output: {
+//     libraryTarget: "commonjs",
+//     path: path.join(__dirname, ".webpack"),
+//     filename: "[name].js",
+//   },
+//   target: "node",
+//   externals: [nodeExternals()],
+//   module: {
+//     rules: [
+//       {
+//         test: /\.(tsx?)$/,
+//         loader: "ts-loader",
+//         exclude: [
+//           [
+//             path.resolve(__dirname, "node_modules"),
+//             path.resolve(__dirname, ".serverless"),
+//             path.resolve(__dirname, ".webpack"),
+//           ],
+//         ],
+//         options: {
+//           transpileOnly: true,
+//           experimentalWatchApi: true,
+//         },
+//       },
+//     ],
+//   },
+// };
+
 const path = require("path");
 const slsw = require("serverless-webpack");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
-  context: __dirname,
+  entry: slsw.lib.entries,
+  target: "node",
   mode: slsw.lib.webpack.isLocal ? "development" : "production",
-  entry: ["./src/main.ts"],
+  externals: [nodeExternals()],
   devtool: slsw.lib.webpack.isLocal
     ? "eval-cheap-module-source-map"
     : "source-map",
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: [
+          [
+            path.resolve(__dirname, "node_modules"),
+            path.resolve(__dirname, ".serverless"),
+            path.resolve(__dirname, ".dist"),
+          ],
+        ],
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+          },
+        },
+      },
+    ],
+  },
   resolve: {
-    extensions: [".mjs", ".json", ".ts"],
-    symlinks: false,
-    cacheWithContext: false,
+    extensions: [".ts", ".js"],
     alias: {
       "@src": path.resolve(__dirname, "src"),
     },
   },
   output: {
     libraryTarget: "commonjs",
-    path: path.join(__dirname, ".webpack"),
     filename: "[name].js",
-  },
-  target: "node",
-  externals: [nodeExternals()],
-  module: {
-    rules: [
-      {
-        test: /\.(tsx?)$/,
-        loader: "ts-loader",
-        exclude: [
-          [
-            path.resolve(__dirname, "node_modules"),
-            path.resolve(__dirname, ".serverless"),
-            path.resolve(__dirname, ".webpack"),
-          ],
-        ],
-        options: {
-          transpileOnly: true,
-          experimentalWatchApi: true,
-        },
-      },
-    ],
+    path: path.join(__dirname, ".webpack"),
   },
 };
