@@ -21,17 +21,18 @@ provider:
 
 functions:
   hello-world:
-    handler: src/template/handler.helloWorld
+    # handler: src/template/handler.helloWorld
     # handler: dist/main.handler
+    handler: src/main.helloWorld
     events:
       - http:
           path: test
           method: get
           cors: true
-  bye-world:
-    handler: src/template/handler.byeWorld
-    events:
-      - http:
-          path: test2
-          method: get
-          cors: true
+  # bye-world:
+  #   handler: src/template/handler.byeWorld
+  #   events:
+  #     - http:
+  #         path: test2
+  #         method: get
+  #         cors: true

@@ -1,32 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NestFactory } from '@nestjs/core';
 import { INestApplicationContext } from '@nestjs/common';
+import { Handler } from 'aws-lambda';
 
 import { AppModule } from './app.module';
-// import * as templateHandlers from './template/handler';
-import { TemplateHandler } from './template/handlers';
-import { HandlerType } from './common/interfaces/handler.interface';
 
-async function bootstrap(): Promise<HandlerType> {
+// handlers
+import { TemplateHandler } from './template/handlers';
+
+const main: { [handler: string]: Handler } = {};
+
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.createApplicationContext(AppModule);
-  const handler = app.get<any, HandlerType>(TemplateHandler);
-  return handler;
+  // TODO: obtener array de providers desde la instancia de nestjs. Ver si se puede usar dynamic providers o algo por el estilo
+  const providers = [TemplateHandler];
+  providers.forEach((provider) => {
+    const handlerInstance = app.get(provider);
+    const methods = Object.getOwnPropertyNames(
+      Object.getPrototypeOf(handlerInstance)
+    );
+    methods.forEach((method) => {
+      const handler = handlerInstance[method];
+      if (typeof handler === 'function') {
+        // exports[handler] = handler.bind(handlerInstance);
+        main[method] = handler.bind(handlerInstance);
+      }
+    });
+  });
 }
 
-// export async function handlers(event, context) {
-//   const app = await bootstrap();
-//   const appService = app.get(AppService);
-//   await appService.doSomething(event);
-// }
+bootstrap();
 
-// export handler;
-
-// function exportAll(module){
-//   Object.keys(module).forEach(key => {
-//     exports[key] = module[key]; //<--- dynamically export all module keys
-//   });
-// }
-
-// //for test:
-// const fs = require("fs")
-// exports.fs=fs
-// exportAll(fs)
+export default main;

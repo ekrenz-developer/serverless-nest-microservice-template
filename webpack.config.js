@@ -6,7 +6,7 @@ const nodeExternals = require("webpack-node-externals");
 module.exports = {
   context: __dirname,
   mode: slsw.lib.webpack.isLocal ? "development" : "production",
-  entry: slsw.lib.entries,
+  entry: ["./src/main.ts"],
   devtool: slsw.lib.webpack.isLocal
     ? "eval-cheap-module-source-map"
     : "source-map",
