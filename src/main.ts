@@ -38,7 +38,7 @@ import { NestFactory } from '@nestjs/core';
 import { INestApplicationContext } from '@nestjs/common';
 
 import { AppModule } from './app.module';
-import { TemplateHandler } from './template/handlers';
+import { TemplateHandler } from './template/handlers/template.handler';
 
 async function bootstrap(): Promise<void> {
   const app: INestApplicationContext =
