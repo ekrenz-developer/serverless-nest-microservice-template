@@ -4,7 +4,6 @@ frameworkVersion: '3'
 plugins:
   - serverless-webpack
   - serverless-offline
-  # - serverless-plugin-typescript
 
 package:
   individually: true # to package functions individually. You can toggle this and check the difference webpack generates
@@ -21,18 +20,9 @@ provider:
 
 functions:
   hello-world:
-    # handler: src/template/handler.helloWorld
-    # handler: dist/main.handler
     handler: src/main.helloWorld
     events:
       - http:
           path: test
           method: get
           cors: true
-  # bye-world:
-  #   handler: src/template/handler.byeWorld
-  #   events:
-  #     - http:
-  #         path: test2
-  #         method: get
-  #         cors: true
