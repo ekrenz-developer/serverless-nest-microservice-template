@@ -33,37 +33,71 @@
 
 // export default main;
 
-import { Handler } from 'aws-lambda';
+// async function bootstrap(): Promise<void> {
+//   const app: INestApplicationContext =
+//     await NestFactory.createApplicationContext(AppModule);
+//   const providers = [TemplateHandler];
+//   // const providers: HandlerType[] = []; // Agrega aquí tus handlers
+
+//   const handlers: { [handler: string]: Handler } = {};
+
+//   providers.forEach((provider) => {
+//     const handlerInstance = app.get(provider);
+//     const methods = Object.getOwnPropertyNames(
+//       Object.getPrototypeOf(handlerInstance)
+//     );
+
+//     methods.forEach((method) => {
+//       if (typeof handlerInstance[method] === 'function') {
+//         handlers[method] = handlerInstance[method].bind(handlerInstance);
+//       }
+//     });
+//   });
+
+//   Object.entries(handlers).forEach(([handlerName, handler]) => {
+//     exports[handlerName] = handler;
+//   });
+// }
+
+// bootstrap();
+
 import { NestFactory } from '@nestjs/core';
 import { INestApplicationContext } from '@nestjs/common';
-
+import { Handler } from 'aws-lambda';
 import { AppModule } from './app.module';
-import { TemplateHandler } from './template/handlers/template.handler';
+import { ModulesContainer } from '@nestjs/core/injector/modules-container';
+
+interface MainHandlers {
+  [handlerName: string]: Handler;
+}
 
 async function bootstrap(): Promise<void> {
-  const app: INestApplicationContext =
-    await NestFactory.createApplicationContext(AppModule);
-  const providers = [TemplateHandler];
-  // const providers: HandlerType[] = []; // Agrega aquí tus handlers
+  const app = await NestFactory.createApplicationContext(AppModule);
+  const appContext = app as INestApplicationContext;
 
-  const handlers: { [handler: string]: Handler } = {};
+  const handlers: MainHandlers = {};
 
-  providers.forEach((provider) => {
-    const handlerInstance = app.get(provider);
-    const methods = Object.getOwnPropertyNames(
-      Object.getPrototypeOf(handlerInstance)
-    );
+  const moduleRef = appContext.get<any>(ModulesContainer);
+  const modules = [...moduleRef.values()];
 
-    methods.forEach((method) => {
-      if (typeof handlerInstance[method] === 'function') {
-        handlers[method] = handlerInstance[method].bind(handlerInstance);
+  for (const module of modules) {
+    const providers = [...module.providers.values()];
+    for (const provider of providers) {
+      const instance = appContext.get(provider.metatype);
+      const providerMethods = Object.getOwnPropertyNames(
+        Object.getPrototypeOf(instance)
+      );
+      for (const method of providerMethods) {
+        const isHandler = Reflect.getMetadata('handler', instance[method]);
+        if (isHandler) {
+          const handlerName = isHandler.handlerName;
+          handlers[handlerName] = instance[method].bind(instance);
+        }
       }
-    });
-  });
+    }
+  }
 
-  Object.entries(handlers).forEach(([handlerName, handler]) => {
-    exports[handlerName] = handler;
-  });
+  module.exports = handlers;
 }
 
 bootstrap();
