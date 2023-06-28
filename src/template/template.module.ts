@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { TemplateHandler } from './handlers';
+import { TemplateHandler } from './handlers/template.handler';
 import { TemplateService } from './services/template.service';
 
 @Module({
