@@ -15,7 +15,7 @@ module.exports = {
     symlinks: false,
     cacheWithContext: false,
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@src": path.resolve(__dirname, "src"),
     },
   },
   output: {

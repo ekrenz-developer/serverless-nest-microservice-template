@@ -8,8 +8,8 @@ import {
   APIGatewayProxyResult,
 } from 'aws-lambda';
 
-import { AppModule } from '@/app.module';
-import { TemplateService } from '@/template/services/template.service';
+import { AppModule } from '@src/app.module';
+import { TemplateService } from '@src/template/services/template.service';
 
 export const helloWorld: Handler = async (
   event: APIGatewayEvent
