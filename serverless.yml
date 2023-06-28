@@ -19,8 +19,8 @@ provider:
   runtime: nodejs18.x
 
 functions:
-  hello-world:
-    handler: src/main.helloWorld
+  helloWorld:
+    handler: src/main.handler
     events:
       - http:
           path: test

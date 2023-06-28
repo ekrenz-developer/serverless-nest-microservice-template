@@ -8,7 +8,7 @@ interface MainHandlers {
   [handlerName: string]: Handler;
 }
 
-async function bootstrap(): Promise<void> {
+export const handler: Handler = async (event, context, callback) => {
   const app = await NestFactory.createApplicationContext(AppModule);
   const appContext = app as INestApplicationContext;
 
@@ -34,7 +34,10 @@ async function bootstrap(): Promise<void> {
     }
   }
 
-  module.exports = handlers;
-}
-
-bootstrap();
+  const handler = handlers[event.handlerName];
+  if (handler) {
+    return handler(event, context, callback);
+  } else {
+    throw new Error(`Handler not found for '${event.handlerName}'.`);
+  }
+};
