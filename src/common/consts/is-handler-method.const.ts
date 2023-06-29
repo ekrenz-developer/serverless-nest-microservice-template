@@ -1,0 +1,1 @@
+export const IS_HANDLER_METHOD = 'IS_HANDLER_METHOD';
