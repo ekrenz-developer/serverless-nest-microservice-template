@@ -21,8 +21,9 @@ provider:
 functions:
   helloWorld:
     handler: src/main.handler
+    name: helloWorld
     events:
-      - http:
-          path: test
+      - httpApi:
+          path: template
           method: get
           cors: true

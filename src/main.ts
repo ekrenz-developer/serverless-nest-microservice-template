@@ -9,16 +9,17 @@ interface MainHandlers {
 }
 
 export const handler: Handler = async (event, context, callback) => {
-  const app = await NestFactory.createApplicationContext(AppModule);
-  const appContext = app as INestApplicationContext;
-
+  console.log('ACA event', event);
+  const appContext = await NestFactory.createApplicationContext(AppModule);
   const handlers: MainHandlers = {};
 
   const moduleRef = appContext.get<any>(ModulesContainer);
   const modules = [...moduleRef.values()];
+  // console.log('ACA modules', modules);
 
   for (const module of modules) {
     const providers = [...module.providers.values()];
+    // console.log('ACA providers', providers);
     for (const provider of providers) {
       const instance = appContext.get(provider.metatype);
       const providerMethods = Object.getOwnPropertyNames(
