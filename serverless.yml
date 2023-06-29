@@ -24,6 +24,5 @@ functions:
     name: helloWorld
     events:
       - httpApi:
-          path: template
-          method: get
-          cors: true
+          path: /template
+          method: GET

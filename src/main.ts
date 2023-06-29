@@ -1,15 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { INestApplicationContext } from '@nestjs/common';
-import { Handler } from 'aws-lambda';
-import { AppModule } from './app.module';
 import { ModulesContainer } from '@nestjs/core/injector/modules-container';
+import { Handler } from 'aws-lambda';
+
+import { AppModule } from './app.module';
 
 interface MainHandlers {
   [handlerName: string]: Handler;
 }
 
 export const handler: Handler = async (event, context, callback) => {
-  console.log('ACA event', event);
+  // console.log('ACA event', event);
   const appContext = await NestFactory.createApplicationContext(AppModule);
   const handlers: MainHandlers = {};
 
@@ -34,6 +34,7 @@ export const handler: Handler = async (event, context, callback) => {
       }
     }
   }
+  console.log('ACA handlers', handlers);
 
   const handler = handlers[event.handlerName];
   if (handler) {
