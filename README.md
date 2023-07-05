@@ -1,72 +1,51 @@
-<!--
-title: 'AWS NodeJS Example'
-description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# Serverless Nest Microservice Template
 
+This is a template for creating a serverless microservice using Nest.js on AWS Lambda.
 
-# Serverless Framework AWS NodeJS Example
+## Prerequisites
 
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework. The deployed function does not include any event definitions as well as any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which includes integrations with SQS, DynamoDB or examples of functions that are triggered in `cron`-like manner. For details about configuration of specific `events`, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
+Before getting started, make sure you have the following installed:
 
-## Usage
+- Node.js (v14 or higher)
+- Serverless Framework (global installation)
 
-### Deployment
+## Setup
 
-In order to deploy the example, you need to run the following command:
+Follow these steps to set up and deploy the microservice:
 
-```
-$ serverless deploy
-```
+1. Clone this repository: `git clone https://github.com/ekrenz-developer/serverless-nest-microservice-template.git`
+2. Navigate to the repository directory: `cd serverless-nest-microservice-template`
+3. Install the dependencies: `npm install`
+4. Configure your AWS credentials:
+   - Create a `credentials` file in the `~/.aws/` directory (if it doesn't exist) and add your AWS credentials:
 
-After running deploy, you should see output similar to:
+[default]
+aws_access_key_id = YOUR_ACCESS_KEY
+aws_secret_access_key = YOUR_SECRET_KEY
+region = YOUR_REGION
 
-```bash
-Deploying aws-node-project to stage dev (us-east-1)
+5. Deploy the microservice to AWS Lambda: serverless deploy
 
-✔ Service deployed to stack aws-node-project-dev (112s)
+## Project Structure
 
-functions:
-  hello: aws-node-project-dev-hello (1.5 kB)
-```
+The project follows the standard structure of a Nest.js application. Here's a description of key directories:
 
-### Invocation
+- `src`: Contains the source code of the application.
+- `src/{module}/handlers`: Defines the server's endpoint handlers.
+- `src/{module}/services`: Defines the handlers' services.
+- `src/common`: Contains common files and utilities.
+- `serverless.yml`: Serverless Framework deployment configuration file.
 
-After successful deployment, you can invoke the deployed function by using the following command:
+## Contributing
 
-```bash
-serverless invoke --function hello
-```
+If you'd like to contribute to this project, follow these steps:
 
-Which should result in response similar to the following:
+1. Create a fork of the repository.
+2. Create a branch for your feature: `git checkout -b your-feature-branch`.
+3. Make the changes and commit: `git commit -m 'Description of the changes'`.
+4. Push the changes to your forked repository: `git push origin your-feature-branch`.
+5. Open a pull request in the original repository.
 
-```json
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
-```
+## License
 
-### Local development
-
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
