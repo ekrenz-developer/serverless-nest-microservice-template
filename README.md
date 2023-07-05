@@ -13,9 +13,24 @@ Before getting started, make sure you have the following installed:
 
 Follow these steps to set up and deploy the microservice:
 
-1. Clone this repository: `git clone https://github.com/ekrenz-developer/serverless-nest-microservice-template.git`
-2. Navigate to the repository directory: `cd serverless-nest-microservice-template`
-3. Install the dependencies: `npm install`
+1. Clone this repository:
+
+```bash
+$ git clone https://github.com/ekrenz-developer/serverless-nest-microservice-template.git
+```
+
+2. Navigate to the repository directory:
+
+```bash
+$ cd serverless-nest-microservice-template
+```
+
+3. Install the dependencies:
+
+```bash
+$ npm install
+```
+
 4. Configure your AWS credentials:
    - Create a `credentials` file in the `~/.aws/` directory (if it doesn't exist) and add your AWS credentials:
 
@@ -26,7 +41,7 @@ aws_secret_access_key = YOUR_SECRET_KEY
 region = YOUR_REGION
 ```
 
-5. Deploy the microservice to AWS Lambda: 
+5. Deploy the microservice to AWS Lambda:
 
 ```bash
 $ sls deploy
