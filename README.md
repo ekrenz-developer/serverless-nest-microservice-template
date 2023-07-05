@@ -1,6 +1,6 @@
 # Serverless Nest Microservice Template
 
-This is a template for creating a serverless microservice using Nest.js on AWS Lambda.
+This is a template for creating a serverless microservice using Serverless Framework, Nest.js on AWS Lambda.
 
 ## Prerequisites
 
@@ -19,12 +19,25 @@ Follow these steps to set up and deploy the microservice:
 4. Configure your AWS credentials:
    - Create a `credentials` file in the `~/.aws/` directory (if it doesn't exist) and add your AWS credentials:
 
+```bash
 [default]
 aws_access_key_id = YOUR_ACCESS_KEY
 aws_secret_access_key = YOUR_SECRET_KEY
 region = YOUR_REGION
+```
 
-5. Deploy the microservice to AWS Lambda: serverless deploy
+5. Deploy the microservice to AWS Lambda: 
+
+```bash
+$ sls deploy
+```
+
+## Running the app
+
+```bash
+# watch mode
+$ npm run start:dev
+```
 
 ## Project Structure
 
