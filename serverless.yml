@@ -21,7 +21,7 @@ provider:
 functions:
   helloWorld:
     handler: src/main.handler
-    name: helloWorld
+    name: helloWorld #THE RIGHT NAME HERE IS VERY IMPORTANT
     events:
       - httpApi:
           path: /template

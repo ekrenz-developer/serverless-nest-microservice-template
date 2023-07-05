@@ -1,4 +1,3 @@
-// import 'reflect-metadata';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ModulesContainer } from '@nestjs/core/injector/modules-container';
 import { Handler } from 'aws-lambda';
@@ -7,20 +6,15 @@ import { IS_HANDLER_MODULE } from './common/consts/is-handler-module.const';
 import { IS_HANDLER_PROVIDER } from './common/consts/is-handler-provider.const';
 import { IS_HANDLER_METHOD } from './common/consts/is-handler-method.const';
 import { AppModule } from './app.module';
-
-interface MainHandlers {
-  [handlerName: string]: Handler;
-}
+import { HandlerMethodInterface } from './common/interfaces/handler-method.interface';
 
 export const handler: Handler = async (event, context, callback) => {
-  // console.log('ACA event', event);
   const appContext = await NestFactory.createApplicationContext(AppModule);
-  const handlers: MainHandlers = {};
+  const handlers: HandlerMethodInterface = {};
 
   const reflector = appContext.get(Reflector);
   const moduleRef = appContext.get<any>(ModulesContainer);
   const modules = [...moduleRef.values()];
-  // console.log('ACA modules', modules);
 
   for (const module of modules) {
     const metatype = module?.metatype;
@@ -32,9 +26,7 @@ export const handler: Handler = async (event, context, callback) => {
       continue;
     }
     const providers = [...module.providers.values()];
-    // console.log('ACA providers', providers);
     for (const provider of providers) {
-      // console.log('ACA1', provider);
       const metatype = provider?.metatype;
       if (!metatype) {
         continue;
@@ -47,9 +39,6 @@ export const handler: Handler = async (event, context, callback) => {
       const providerMethods = Object.getOwnPropertyNames(
         Object.getPrototypeOf(instance)
       );
-
-      console.log('ACA providerMethods', providerMethods);
-      console.log('ACA instance', instance);
       for (const method of providerMethods) {
         const isHandlerMethod = reflector.get(
           IS_HANDLER_METHOD,
@@ -63,11 +52,8 @@ export const handler: Handler = async (event, context, callback) => {
       }
     }
   }
-  console.log('ACA handlers', handlers);
 
-  console.log('ACA event', event);
-  // TODO: ver como agregarle al event el handlerName o algo para identificarlo
-  const handler = handlers[event.handlerName];
+  const handler = handlers[context.functionName];
   if (handler) {
     return handler(event, context, callback);
   } else {
