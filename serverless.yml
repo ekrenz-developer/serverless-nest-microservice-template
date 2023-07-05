@@ -11,7 +11,7 @@ package:
 custom:
   webpack: # serverless-webpack plugin options
     webpackConfig: webpack.config.js # Name of webpack configuration file
-    includeModules: true # Node modules configuration for packaging
+    includeModules: true
     packager: 'npm' # Packager that will be used to package your external modules
 
 provider:
