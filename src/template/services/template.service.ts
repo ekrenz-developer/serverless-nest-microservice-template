@@ -6,6 +6,6 @@ export class TemplateService {
     return { data: 'Hello worldd!' };
   }
   getBye(): { data: string } {
-    return { data: 'Bye world!' };
+    return { data: 'Bye worldd!' };
   }
 }
