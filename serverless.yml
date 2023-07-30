@@ -23,7 +23,7 @@ functions:
   helloWorld:
     handler: src/main.handler
     layers:
-      - arn:aws:lambda:us-east-1:408074283520:layer:base-prod-dependencies:3
+      - arn:aws:lambda:us-east-1:408074283520:layer:base-prod-dependencies:4
     name: helloWorld #THE RIGHT NAME HERE IS VERY IMPORTANT
     events:
       - httpApi:
