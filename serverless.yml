@@ -11,16 +11,19 @@ package:
 custom:
   webpack: # serverless-webpack plugin options
     webpackConfig: webpack.config.js # Name of webpack configuration file
-    includeModules: true
+    includeModules: false
     packager: 'npm' # Packager that will be used to package your external modules
 
 provider:
   name: aws
   runtime: nodejs18.x
+  profile: ekrenz-serverless
 
 functions:
   helloWorld:
     handler: src/main.handler
+    # layers:
+    #   - arn:aws:lambda:us-east-1:408074283520:layer:base-prod-dependencies:1
     name: helloWorld #THE RIGHT NAME HERE IS VERY IMPORTANT
     events:
       - httpApi:
